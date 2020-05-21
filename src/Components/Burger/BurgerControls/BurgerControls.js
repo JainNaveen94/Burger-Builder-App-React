@@ -27,7 +27,7 @@ const burgerControls = (props) => {
           />
         );
       })}
-      <button className={burgerControlsCSS.OrderButton} disabled={props.disabled}>Purchased</button>
+      <button onClick={() => props.purchasedClick()} className={burgerControlsCSS.OrderButton} disabled={props.disabled}>Purchased</button>
     </div>
   );
 };

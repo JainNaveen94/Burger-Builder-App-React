@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import Burger from "../../Components/Burger/Burger";
 import BurgerControls from "../../Components/Burger/BurgerControls/BurgerControls";
+import Model from "../../Components/UI/Model/Model";
+import OrderSummary from "../../Components/Burger/OrderSummary/OrderSummary";
 
 const INGREDIENT_PRICE_LIST = {
   salad: 100,
@@ -24,20 +26,29 @@ class BurgerBuilder extends Component {
       meat: 0,
     },
     burgerCost: 400,
-    purchasable: true
+    purchasable: true,
+    showOrderSummary: false,
   };
+
+  updateShowOrderSummaryHandler = () => {
+    this.setState({
+      showOrderSummary: true
+    })
+  }
 
   updatePurchasableHandler = (ingredients) => {
     // let ingredients = {...this.state.ingredients};
-    let sum = Object.keys(ingredients).map((key) => {
-      return ingredients[key]
-    }).reduce((sum, element) => {
-      return sum + element;
-    },0)
+    let sum = Object.keys(ingredients)
+      .map((key) => {
+        return ingredients[key];
+      })
+      .reduce((sum, element) => {
+        return sum + element;
+      }, 0);
     this.setState({
-      purchasable: sum <= 0
-    })
-  }
+      purchasable: sum <= 0,
+    });
+  };
 
   addIngredientHandler = (type) => {
     // Getting and Updating the Ingredient Count Locally
@@ -95,12 +106,16 @@ class BurgerBuilder extends Component {
     return (
       <>
         <Burger ingredients={this.state.ingredients} />
+        <Model show={this.state.showOrderSummary}>
+          <OrderSummary ingredients={this.state.ingredients} />
+        </Model>
         <BurgerControls
           addIngredientClick={(type) => this.addIngredientHandler(type)}
           removeIngredientClick={(type) => this.removeIngredientHandler(type)}
           disabledControls={disabledControls}
           burgerCost={this.state.burgerCost}
           disabled={this.state.purchasable}
+          purchasedClick={() => this.updateShowOrderSummaryHandler()}
         />
       </>
     );
