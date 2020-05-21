@@ -4,6 +4,11 @@ import Burger from "../../Components/Burger/Burger";
 import BurgerControls from "../../Components/Burger/BurgerControls/BurgerControls";
 import Model from "../../Components/UI/Model/Model";
 import OrderSummary from "../../Components/Burger/OrderSummary/OrderSummary";
+import Spinner from "../../Components/UI/Spinner/Spinner";
+
+import axios from "../../services/axios/axios-order";
+
+// import { placeOrder } from "../../services/orders/order";
 
 const INGREDIENT_PRICE_LIST = {
   salad: 100,
@@ -28,6 +33,7 @@ class BurgerBuilder extends Component {
     burgerCost: 400,
     purchasable: true,
     showOrderSummary: false,
+    loading: false,
   };
 
   modelOpenHandler = () => {
@@ -57,10 +63,43 @@ class BurgerBuilder extends Component {
   };
 
   continuePurchaseHandler = () => {
-    alert("Purchased Continue (@-@) !!");
-    this.resetPurchasedOrder();
-    this.modelCloseHandler();
+    // alert("Purchased Continue (@-@) !!");
+    // this.resetPurchasedOrder();
+    // this.modelCloseHandler();
+    this.setState({
+      loading: true,
+    });
+
+    const orderDetails = this.getOrderDetails();
+    axios
+      .post("/orders.json", orderDetails)
+      .then((response) => {
+        this.resetPurchasedOrder();
+      })
+      .catch((error) => {
+        this.setState({
+          loading: true, purchasable: true
+        })
+      });
   };
+
+  getOrderDetails() {
+    return {
+      id: (Date.now() + Math.random()).toFixed(0),
+      ingredients: this.state.ingredients,
+      burgerCost: this.state.burgerCost,
+      customer: {
+        name: "Naveen Jain",
+        address: {
+          street: "kar",
+          zipCode: "234577",
+          country: "India",
+        },
+        email: "naveen@myburger.com",
+      },
+      deliveryMethod: "fastest",
+    };
+  }
 
   resetPurchasedOrder = () => {
     this.setState({
@@ -73,6 +112,7 @@ class BurgerBuilder extends Component {
       burgerCost: 400,
       purchasable: true,
       showOrderSummary: false,
+      loading: false
     });
   };
 
@@ -129,6 +169,20 @@ class BurgerBuilder extends Component {
 
   render() {
     const disabledControls = this.checkedDisabledControls();
+
+    let orderSummary = (
+      <OrderSummary
+        ingredients={this.state.ingredients}
+        burgerCost={this.state.burgerCost}
+        cancelClicked={() => this.modelCloseHandler()}
+        continueClicked={() => this.continuePurchaseHandler()}
+      />
+    );
+
+    if (this.state.loading) {
+      orderSummary = <Spinner />;
+    }
+
     return (
       <>
         <Burger ingredients={this.state.ingredients} />
@@ -136,12 +190,7 @@ class BurgerBuilder extends Component {
           show={this.state.showOrderSummary}
           modelClose={() => this.modelCloseHandler()}
         >
-          <OrderSummary
-            ingredients={this.state.ingredients}
-            burgerCost={this.state.burgerCost}
-            cancelClicked={() => this.modelCloseHandler()}
-            continueClicked={() => this.continuePurchaseHandler()}
-          />
+          {orderSummary}
         </Model>
         <BurgerControls
           addIngredientClick={(type) => this.addIngredientHandler(type)}

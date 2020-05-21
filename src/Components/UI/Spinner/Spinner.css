@@ -5,7 +5,7 @@
     width: 11em;
     height: 11em;
     border-radius: 50%;
-    background: #000080;
+    background: #fff;
     background: -moz-linear-gradient(left, #000080 10%, rgba(0,0,128, 0) 42%);
     background: -webkit-linear-gradient(left, #000080 10%, rgba(0,0,128, 0) 42%);
     background: -o-linear-gradient(left, #000080 10%, rgba(0,0,128, 0) 42%);
@@ -21,7 +21,7 @@
   .Spinner:before {
     width: 50%;
     height: 50%;
-    background: #000080;
+    background: #fff;
     border-radius: 100% 0 0 0;
     position: absolute;
     top: 0;
@@ -29,7 +29,7 @@
     content: '';
   }
   .Spinner:after {
-    background: #000080;
+    background: #fff;
     width: 75%;
     height: 75%;
     border-radius: 50%;
