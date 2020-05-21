@@ -30,11 +30,17 @@ class BurgerBuilder extends Component {
     showOrderSummary: false,
   };
 
-  updateShowOrderSummaryHandler = () => {
+  modelOpenHandler = () => {
     this.setState({
-      showOrderSummary: true
-    })
-  }
+      showOrderSummary: true,
+    });
+  };
+
+  modelCloseHandler = () => {
+    this.setState({
+      showOrderSummary: false,
+    });
+  };
 
   updatePurchasableHandler = (ingredients) => {
     // let ingredients = {...this.state.ingredients};
@@ -47,6 +53,26 @@ class BurgerBuilder extends Component {
       }, 0);
     this.setState({
       purchasable: sum <= 0,
+    });
+  };
+
+  continuePurchaseHandler = () => {
+    alert("Purchased Continue (@-@) !!");
+    this.resetPurchasedOrder();
+    this.modelCloseHandler();
+  };
+
+  resetPurchasedOrder = () => {
+    this.setState({
+      ingredients: {
+        salad: 0,
+        bacon: 0,
+        cheese: 0,
+        meat: 0,
+      },
+      burgerCost: 400,
+      purchasable: true,
+      showOrderSummary: false,
     });
   };
 
@@ -106,8 +132,16 @@ class BurgerBuilder extends Component {
     return (
       <>
         <Burger ingredients={this.state.ingredients} />
-        <Model show={this.state.showOrderSummary}>
-          <OrderSummary ingredients={this.state.ingredients} />
+        <Model
+          show={this.state.showOrderSummary}
+          modelClose={() => this.modelCloseHandler()}
+        >
+          <OrderSummary
+            ingredients={this.state.ingredients}
+            burgerCost={this.state.burgerCost}
+            cancelClicked={() => this.modelCloseHandler()}
+            continueClicked={() => this.continuePurchaseHandler()}
+          />
         </Model>
         <BurgerControls
           addIngredientClick={(type) => this.addIngredientHandler(type)}
@@ -115,7 +149,7 @@ class BurgerBuilder extends Component {
           disabledControls={disabledControls}
           burgerCost={this.state.burgerCost}
           disabled={this.state.purchasable}
-          purchasedClick={() => this.updateShowOrderSummaryHandler()}
+          purchasedClick={() => this.modelOpenHandler()}
         />
       </>
     );

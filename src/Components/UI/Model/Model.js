@@ -2,8 +2,12 @@ import React from "react";
 
 import modelCSS from "./Model.css";
 
+import Backdrop from "../Backdrop/Backdrop";
+
 const model = (props) => {
   return (
+    <>
+    <Backdrop show={props.show} clicked={() => props.modelClose()} />
     <div
       className={modelCSS.Model}
       style={{
@@ -13,6 +17,7 @@ const model = (props) => {
     >
       {props.children}
     </div>
+    </>
   );
 };
 
