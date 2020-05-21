@@ -9,6 +9,7 @@ const burgerControl = (props) => {
       <button
         onClick={() => props.removeIngredientClick(props.type)}
         className={burgerControlCSS.Less}
+        disabled={props.disabledControl}
       >
         Less
       </button>

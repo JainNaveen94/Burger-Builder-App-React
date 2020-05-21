@@ -24,7 +24,20 @@ class BurgerBuilder extends Component {
       meat: 0,
     },
     burgerCost: 400,
+    purchasable: true
   };
+
+  updatePurchasableHandler = (ingredients) => {
+    // let ingredients = {...this.state.ingredients};
+    let sum = Object.keys(ingredients).map((key) => {
+      return ingredients[key]
+    }).reduce((sum, element) => {
+      return sum + element;
+    },0)
+    this.setState({
+      purchasable: sum <= 0
+    })
+  }
 
   addIngredientHandler = (type) => {
     // Getting and Updating the Ingredient Count Locally
@@ -44,6 +57,7 @@ class BurgerBuilder extends Component {
       ingredients: updatedIngredients,
       burgerCost: burgerCost,
     });
+    this.updatePurchasableHandler(updatedIngredients);
   };
 
   removeIngredientHandler = (type) => {
@@ -64,16 +78,29 @@ class BurgerBuilder extends Component {
         ingredients: updatedIngredients,
         burgerCost: burgerCost,
       });
+      this.updatePurchasableHandler(updatedIngredients);
     }
   };
 
+  checkedDisabledControls = () => {
+    let disbaledInfo = { ...this.state.ingredients };
+    for (let key in disbaledInfo) {
+      disbaledInfo[key] = disbaledInfo[key] <= 0;
+    }
+    return disbaledInfo;
+  };
+
   render() {
+    const disabledControls = this.checkedDisabledControls();
     return (
       <>
         <Burger ingredients={this.state.ingredients} />
-        <BurgerControls 
-        addIngredientClick={(type) => this.addIngredientHandler(type)}
-        removeIngredientClick={(type) => this.removeIngredientHandler(type)}
+        <BurgerControls
+          addIngredientClick={(type) => this.addIngredientHandler(type)}
+          removeIngredientClick={(type) => this.removeIngredientHandler(type)}
+          disabledControls={disabledControls}
+          burgerCost={this.state.burgerCost}
+          disabled={this.state.purchasable}
         />
       </>
     );
