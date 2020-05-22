@@ -94,11 +94,6 @@ class BurgerBuilder extends Component {
     //       showOrderSummary: false,
     //     });
     //   });
-    console.log(this.props);
-    // this.props.history.push({
-    //   pathname: "/check-out",
-    //   data: this.state.ingredients
-    // })
     this.props.history.push('/check-out', {ingredients: {...this.state.ingredients}, burgerCost: this.state.burgerCost});
   };
 
