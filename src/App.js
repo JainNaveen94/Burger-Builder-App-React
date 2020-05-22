@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 
 import appCSS from "./App.css";
 
@@ -14,13 +14,12 @@ function App() {
     <div className={appCSS.App}>
       <Layout>
         <Switch>
-          <Route path="/check-out" extact component={Checkout} />
-          <Route path="/orders" extact component={Orders} />
-          <Route path="/" extact component={BurgerBuilder} />
-
+          <Route path="/new-order" exact component={BurgerBuilder} />
+          <Route path="/check-out" component={Checkout} />
+          <Route path="/orders" component={Orders} />
+          <Redirect from="/" to="/new-order" exact />
+          <Route render={() => <p>Not Found</p>} />
         </Switch>
-        {/* <BurgerBuilder />
-      <Checkout /> */}
       </Layout>
     </div>
   );
