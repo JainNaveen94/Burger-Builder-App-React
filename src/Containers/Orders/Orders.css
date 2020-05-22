@@ -1,0 +1,12 @@
+.Orders {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+}
+
+.Title h1 {
+  font-weight: 800;
+  font-size: 40px;
+  font-style: italic;
+  color: #703B09;
+}

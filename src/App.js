@@ -7,6 +7,7 @@ import Layout from "./hoc/Layout/Layout";
 
 import BurgerBuilder from "./Containers/BurgerBuilder/BurgerBuilder";
 import Checkout from "./Containers/Checkout/Checkout";
+import Orders from "./Containers/Orders/Orders";
 
 function App() {
   return (
@@ -14,7 +15,9 @@ function App() {
       <Layout>
         <Switch>
           <Route path="/check-out" extact component={Checkout} />
+          <Route path="/orders" extact component={Orders} />
           <Route path="/" extact component={BurgerBuilder} />
+
         </Switch>
         {/* <BurgerBuilder />
       <Checkout /> */}
