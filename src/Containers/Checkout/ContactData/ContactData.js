@@ -4,6 +4,7 @@ import contactDataCSS from "./ContactData.css";
 
 import Button from "../../../Components/UI/Button/Button";
 import Spinner from "../../../Components/UI/Spinner/Spinner";
+import WithErrorHandler from "../../../hoc/WithErrorHandler/WithErrorHandler";
 
 import axios from "../../../services/axios/axios-order";
 
@@ -92,8 +93,8 @@ class ContactData extends Component {
         </Button>
       </>
     );
-    if(this.state.loading) {
-      form = <Spinner />
+    if (this.state.loading) {
+      form = <Spinner />;
     }
     return (
       <div className={contactDataCSS.ContactData}>
@@ -104,4 +105,4 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+export default WithErrorHandler(ContactData, axios);

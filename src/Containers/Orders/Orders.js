@@ -4,6 +4,7 @@ import ordersCSS from "./Orders.css";
 
 import Order from "../../Components/Order/Order";
 import Spinner from "../../Components/UI/Spinner/Spinner";
+import WithErrorHandler from "../../hoc/WithErrorHandler/WithErrorHandler";
 
 import axios from "../../services/axios/axios-order";
 
@@ -61,4 +62,4 @@ class Orders extends Component {
   }
 }
 
-export default Orders;
+export default WithErrorHandler(Orders, axios);
