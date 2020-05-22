@@ -7,15 +7,25 @@ import CheckoutSummary from "../../Components/Order/CheckoutSummary/CheckoutSumm
 class Checkout extends Component {
   state = {
     ingredients: {
-      salad: 2,
-      bacon: 2,
-      cheese: 2,
-      meat: 2,
+      salad: 0,
+      bacon: 0,
+      cheese: 0,
+      meat: 0,
     },
+    burgerCost: 0,
   };
+
+  componentDidMount = () => {
+    const data = this.props.history.location.state;
+    this.setState({
+      ingredients: data.ingredients,
+      burgerCost: data.burgerCost
+    })
+  }
 
   cancelCheckoutClickedHandler = () => {
     console.log("[Checkout.js] Cancel clicked");
+    this.props.history.goBack();
   };
 
   continueCheckoutClickedHandler = () => {
