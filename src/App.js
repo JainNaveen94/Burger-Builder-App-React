@@ -4,11 +4,13 @@ import appCSS from "./App.css";
 import Layout from "./hoc/Layout/Layout";
 
 import BurgerBuilder from "./Containers/BurgerBuilder/BurgerBuilder";
+import Checkout from "./Containers/Checkout/Checkout";
 
 function App() {
   return <div className={appCSS.App}>
     <Layout>
       <BurgerBuilder />
+      <Checkout />
     </Layout>
   </div>;
 }
