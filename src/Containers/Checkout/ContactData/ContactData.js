@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import contactDataCSS from "./ContactData.css";
 
@@ -11,15 +12,6 @@ import axios from "../../../services/axios/axios-order";
 
 class ContactData extends Component {
   state = {
-    // customerDetail: {
-    //   name: "Naveen Jain",
-    //   address: {
-    //     street: "kar",
-    //     zipCode: "234577",
-    //     country: "India",
-    //   },
-    //   email: "naveen@myburger.com",
-    // },
     orderForm: {
       name: {
         elementType: "input",
@@ -117,7 +109,7 @@ class ContactData extends Component {
     return {
       id: (Date.now() + Math.random()).toFixed(0),
       ingredients: this.props.ingredients,
-      burgerCost: this.props.price,
+      burgerCost: this.props.burgerCost,
       customer: formData,
     };
   }
@@ -246,4 +238,11 @@ class ContactData extends Component {
   }
 }
 
-export default WithErrorHandler(ContactData, axios);
+const mapstateToProps = (state) => {
+  return {
+    ingredients: state.ingredients,
+    burgerCost: state.burgerCost
+  }
+};
+
+export default connect(mapstateToProps)(WithErrorHandler(ContactData, axios));
