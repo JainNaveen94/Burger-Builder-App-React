@@ -64,7 +64,6 @@ class BurgerBuilder extends Component {
   };
 
   updatePurchasableHandler = (ingredients) => {
-    // let ingredients = {...this.state.ingredients};
     const sum = Object.keys(ingredients)
       .map((key) => {
         return ingredients[key];
@@ -72,15 +71,15 @@ class BurgerBuilder extends Component {
       .reduce((sum, element) => {
         return sum + element;
       }, 0);
-    console.log(">>>>", sum);
     return sum <= 0;
   };
 
   continuePurchaseHandler = () => {
-    this.props.history.push("/check-out", {
-      ingredients: { ...this.props.ingredients },
-      burgerCost: this.props.burgerCost,
-    });
+    // this.props.history.push("/check-out", {
+    //   ingredients: { ...this.props.ingredients },
+    //   burgerCost: this.props.burgerCost,
+    // });
+    this.props.history.push("/check-out");
   };
 
   // getOrderDetails() {

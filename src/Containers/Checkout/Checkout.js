@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
+import { connect } from "react-redux";
 
 // import checkoutCSS from "./Checkout.css";
 
@@ -7,25 +8,25 @@ import CheckoutSummary from "../../Components/Order/CheckoutSummary/CheckoutSumm
 import ContactData from "./ContactData/ContactData";
 
 class Checkout extends Component {
-  state = {
-    ingredients: {
-      salad: 0,
-      bacon: 0,
-      cheese: 0,
-      meat: 0,
-    },
-    burgerCost: 0,
-  };
+  // state = {
+  //   ingredients: {
+  //     salad: 0,
+  //     bacon: 0,
+  //     cheese: 0,
+  //     meat: 0,
+  //   },
+  //   burgerCost: 0,
+  // };
 
-  componentWillMount = () => {
-    const data = this.props.history.location.state;
-    if (data !== null && data !== undefined) {
-      this.setState({
-        ingredients: data.ingredients ? data.ingredients : {},
-        burgerCost: data.burgerCost ? data.burgerCost : 0,
-      });
-    }
-  };
+  // componentWillMount = () => {
+  //   const data = this.props.history.location.state;
+  //   if (data !== null && data !== undefined) {
+  //     this.setState({
+  //       ingredients: data.ingredients ? data.ingredients : {},
+  //       burgerCost: data.burgerCost ? data.burgerCost : 0,
+  //     });
+  //   }
+  // };
 
   cancelCheckoutClickedHandler = () => {
     console.log("[Checkout.js] Cancel clicked");
@@ -42,12 +43,12 @@ class Checkout extends Component {
       <>
         <p>hope You Like its Taste and Order From Here Again !! (@-@)</p>
         <CheckoutSummary
-          ingredients={this.state.ingredients}
-          burgerCost={this.state.burgerCost}
+          ingredients={this.props.ingredients}
+          burgerCost={this.props.burgerCost}
           cancelCheckoutClicked={() => this.cancelCheckoutClickedHandler()}
           continueCheckoutClicked={() => this.continueCheckoutClickedHandler()}
         />
-        <Route
+        {/* <Route
           path={this.props.match.path + "/contact-data"}
           render={(props) => (
             <ContactData
@@ -56,10 +57,21 @@ class Checkout extends Component {
               {...props}
             />
           )}
+        /> */}
+        <Route
+          path={this.props.match.path + "/contact-data"}
+          component={ContactData}
         />
       </>
     );
   }
 }
 
-export default Checkout;
+const mapStateToProp = (state) => {
+  return {
+    ingredients: state.ingredients,
+    burgerCost: state.burgerCost,
+  };
+};
+
+export default connect(mapStateToProp)(Checkout);
